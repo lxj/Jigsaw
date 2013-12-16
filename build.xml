@@ -1,0 +1,64 @@
+﻿<?xml version="1.0"?>
+<project name="FOR PPS" default="initialize">
+    <property name="dist" value="dist"/>
+    <property name="src" value="src"/>
+	<property name="charset" value="gbk"/>
+    <property name="yui-compressor" value="D:\TBCompressor\yuicompressor.jar"/>
+    <tstamp>
+        <format property="build.time" pattern="yyyy/MM/dd hh:mm:ss aa" locale="en,US" />
+    </tstamp>
+    <!-- 添加"Ant-Contrib"对ANT构建文件的支持 -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${sys-env.ANT_HOME}/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="nativeConvertAscii">
+		<delete dir="native2asciiTmp" includeEmptyDirs="true"  />
+		<mkdir dir="native2asciiTmp" />
+		<attrib hidden="true" >
+			<dirset dir="." includes="native2asciiTmp"/>
+		</attrib>
+		<native2ascii encoding="${charset}" src="${src}" dest="native2asciiTmp" includes="**/*.js,**/*.css"  />
+		<copy todir="${dist}" overwrite="true" flatten="false">
+			<fileset dir="native2asciiTmp" />
+		</copy>
+		<delete dir="native2asciiTmp" includeEmptyDirs="true" />
+    </target>
+
+    <target name="compress">
+        <java jar="${yui-compressor}" fork="true">
+            <arg value="${file}" />
+            <arg line="--charset GB18030" />
+            <arg value="-o" />
+            <arg value="${file}" />
+        </java>
+        <echo>${file}</echo>
+    </target>
+
+    <target name="confusion">
+        <for param="file">
+            <path>
+                <fileset dir="${dist}">
+                    <include name="**/*.css"/>
+                    <include name="**/*.js"/>
+                </fileset>
+            </path>
+            <sequential>
+                <antcall target="compress">
+                    <param name="file" value="@{file}" />
+                </antcall>
+                <replaceregexp file="@{file}" flags="g">
+                    <regexp pattern="^"/>
+                    <substitution expression="/*!Build Time:${build.time} */&#xD;&#xA;"/>
+                </replaceregexp>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="initialize" depends="nativeConvertAscii,confusion">
+        <echo>Done!</echo>
+    </target>
+
+</project>

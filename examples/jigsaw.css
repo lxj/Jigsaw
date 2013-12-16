@@ -1,0 +1,58 @@
+/**
+ * Created by JetBrains WebStorm.
+ * User: LXJ
+ * Date: 13-5-19 ÉÏÎç11:42
+ * Mail: louxiaojian@gmail.com
+ */
+html,body{height:100%;overflow:hidden}
+body{background:#fff url(bg.jpg)}
+.item{
+    position:absolute;
+    display:block;
+    z-index:1;
+    color:#fff;
+    width:1px;
+    height:1px;
+    left:-100px;
+    top:-100px;
+    overflow:hidden;
+    line-height:1;
+    -webkit-transform: translatez(0);
+    -webkit-transition-property: left, top;
+    -moz-transition-property: left, top;
+    -ms-transition-property: left, top;
+    -o-transition-property: left, top;
+    transition-property: left, top;
+    -moz-transition-duration: 0.80s;
+    -webkit-transition-duration: 0.8s;
+    -ms-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+    -moz-animation-duration: 0.8s;
+    -webkit-animation-duration: 0.8s;
+    -ms-animation-duration: 0.8s;
+    -o-animation-duration: 0.8s;
+    animation-duration: 0.8s;
+    -moz-animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    /*opacity: 0.8;*/
+    /*filter:alpha(opaity=80);*/
+}
+.item a{display:block;height:100%;padding:5px 10px;color:#fff;text-decoration:none}
+.item:hover{
+  -webkit-transition-property: transform;
+  -moz-transition-property: transform;
+  -ms-transition-property: transform;
+  -o-transition-property: transform;
+  transition-property: transform;
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  box-shadow: 3px 3px 10px #333;
+  z-index:2;
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="gbk"/>
+    <title>AutoLoader</title>
+</head>
+<body>
+<script>
+    function AutoLoader(e, t) {
+        if (typeof e != "function") throw new TypeError;
+        this._generator = e,
+        this._timeout = t,
+        this._context = arguments[2],
+        this._pool = [],
+        this._load()
+    }
+    AutoLoader.prototype._load = function() {
+        var e = this;
+        clearTimeout(this._loading),
+        this._loading = setTimeout(function() {
+            e._pool.push(e._generator.apply(e._context))
+        },
+        this._timeout)
+    },
+    AutoLoader.prototype.get = function() {
+        var e;
+        return clearTimeout(this._loading),
+        this._pool.length > 0 ? e = this._pool.pop() : e = this._generator.apply(this._context),
+        this._load(),
+        e
+    },
+    AutoLoader.prototype.regenerate = function() {
+        this._pool.length = 0,
+        this._load()
+    }
+    var  gridsAutoLoader = new AutoLoader(function(){
+            return [1,2,3,4,5,6,7,8]
+        },300)
+    console.log(gridsAutoLoader.get())
+</script>
+</body>
+</html>
